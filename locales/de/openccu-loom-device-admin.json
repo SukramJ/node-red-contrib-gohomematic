@@ -1,0 +1,17 @@
+{
+  "openccu-loom-device-admin": {
+    "label": {
+      "name": "Name",
+      "server": "Server",
+      "action": "Aktion",
+      "address": "Adresse"
+    },
+    "action": {
+      "batch": "Batch-Write",
+      "refresh": "Registry abgleichen",
+      "accept": "Inbox-Gerät annehmen",
+      "firmware": "Firmware-Update",
+      "delete": "Gerät löschen"
+    }
+  }
+}

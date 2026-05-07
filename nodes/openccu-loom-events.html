@@ -1,0 +1,60 @@
+<script type="text/javascript">
+  RED.nodes.registerType("openccu-loom-events", {
+    category: "openccu-loom",
+    color: "#A1C9F1",
+    defaults: {
+      name: { value: "" },
+      server: { value: "", type: "openccu-loom-server", required: true },
+      topics: { value: "device.*,hub.*" }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "bridge.svg",
+    label: function () {
+      return this.name || "openccu-loom events";
+    },
+    paletteLabel: "events"
+  });
+</script>
+
+<script type="text/html" data-template-name="openccu-loom-events">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="openccu-loom-events.label.name"></span></label>
+    <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-server"></i> <span data-i18n="openccu-loom-events.label.server"></span></label>
+    <input type="text" id="node-input-server" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-topics"><i class="fa fa-filter"></i> <span data-i18n="openccu-loom-events.label.topics"></span></label>
+    <input type="text" id="node-input-topics" placeholder="device.*,hub.*" />
+  </div>
+</script>
+
+<script type="text/html" data-help-name="openccu-loom-events">
+  <p>Subscribes to the WebSocket event stream <code>/api/v1/events</code> of the
+  openccu-loom daemon. Every received frame is forwarded as <code>msg.payload</code>;
+  <code>msg.topic</code>, <code>msg.eventType</code>, <code>msg.kind</code>
+  (<code>initial|change|refresh</code>) and <code>msg.seq</code> are populated from
+  the envelope.</p>
+  <h3>Topics</h3>
+  <p>Comma-separated topic patterns, e.g. <code>device.*,hub.*,central.*,matter.*</code>.</p>
+  <h3>Input</h3>
+  <ul>
+    <li><code>msg.op</code> = <code>subscribe</code>|<code>unsubscribe</code> with
+        <code>msg.topics</code> (array or string).</li>
+    <li><code>msg.op</code> = <code>reauth</code> with <code>msg.token</code>
+        rotates the bearer credential on the open connection.</li>
+  </ul>
+  <h3>Resume</h3>
+  <p>The node tracks the last seen <code>seq</code> and asks the daemon to replay
+  buffered events on reconnect. If the daemon answers with <code>replay_lost</code>
+  (oldest buffered event is newer than the requested <code>since</code>), the node
+  emits a control message <code>{control: "replay_lost", oldest_seq: M}</code> so the
+  flow can fetch <code>GET /snapshot</code> to resync. <code>replay_done</code> is
+  surfaced analogously.</p>
+  <h3>Reconnect</h3>
+  <p>On disconnect, exponential backoff (1 s … 30 s). On HTTP 401/403 during the
+  handshake the loop halts.</p>
+</script>

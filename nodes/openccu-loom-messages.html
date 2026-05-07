@@ -1,0 +1,57 @@
+<script type="text/javascript">
+  RED.nodes.registerType("openccu-loom-messages", {
+    category: "openccu-loom",
+    color: "#A1C9F1",
+    defaults: {
+      name: { value: "" },
+      server: { value: "", type: "openccu-loom-server", required: true },
+      kind: { value: "alarm" },
+      action: { value: "list" },
+      id: { value: "" }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "alert.svg",
+    label: function () {
+      return this.name || `${this.kind} ${this.action}`;
+    },
+    paletteLabel: "messages"
+  });
+</script>
+
+<script type="text/html" data-template-name="openccu-loom-messages">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="openccu-loom-messages.label.name"></span></label>
+    <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-server"></i> <span data-i18n="openccu-loom-messages.label.server"></span></label>
+    <input type="text" id="node-input-server" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-kind"><i class="fa fa-folder"></i> <span data-i18n="openccu-loom-messages.label.kind"></span></label>
+    <select id="node-input-kind">
+      <option value="alarm">alarm</option>
+      <option value="service">service</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-action"><i class="fa fa-exchange"></i> <span data-i18n="openccu-loom-messages.label.action"></span></label>
+    <select id="node-input-action">
+      <option value="list" data-i18n="openccu-loom-messages.action.list"></option>
+      <option value="ack" data-i18n="openccu-loom-messages.action.ack"></option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-id"><i class="fa fa-key"></i> <span data-i18n="openccu-loom-messages.label.id"></span></label>
+    <input type="text" id="node-input-id" />
+  </div>
+</script>
+
+<script type="text/html" data-help-name="openccu-loom-messages">
+  <p>Lists or acknowledges alarm / service messages via
+  <code>GET/POST /alarm-messages</code> resp. <code>/service-messages</code>.</p>
+  <p><code>msg.kind</code> (<code>alarm|service</code>),
+  <code>msg.action</code> (<code>list|ack</code>) and <code>msg.id</code>
+  override the node fields.</p>
+</script>

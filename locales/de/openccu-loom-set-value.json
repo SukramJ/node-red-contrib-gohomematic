@@ -1,0 +1,13 @@
+{
+  "openccu-loom-set-value": {
+    "label": {
+      "name": "Name",
+      "server": "Server",
+      "address": "Adresse",
+      "channel": "Kanal",
+      "parameter": "Parameter",
+      "priority": "Priorität",
+      "idempotency": "Idempotency-Key"
+    }
+  }
+}

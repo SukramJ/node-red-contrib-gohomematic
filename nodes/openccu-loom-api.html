@@ -1,0 +1,61 @@
+<script type="text/javascript">
+  RED.nodes.registerType("openccu-loom-api", {
+    category: "openccu-loom",
+    color: "#A1C9F1",
+    defaults: {
+      name: { value: "" },
+      server: { value: "", type: "openccu-loom-server", required: true },
+      method: { value: "GET" },
+      path: { value: "" }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "white-globe.svg",
+    label: function () {
+      return this.name || `${this.method} ${this.path || "(msg.path)"}`;
+    },
+    paletteLabel: "api"
+  });
+</script>
+
+<script type="text/html" data-template-name="openccu-loom-api">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="openccu-loom-api.label.name"></span></label>
+    <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-server"></i> <span data-i18n="openccu-loom-api.label.server"></span></label>
+    <input type="text" id="node-input-server" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-method"><i class="fa fa-exchange"></i> <span data-i18n="openccu-loom-api.label.method"></span></label>
+    <select id="node-input-method">
+      <option value="GET">GET</option>
+      <option value="POST">POST</option>
+      <option value="PUT">PUT</option>
+      <option value="PATCH">PATCH</option>
+      <option value="DELETE">DELETE</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-path"><i class="fa fa-link"></i> <span data-i18n="openccu-loom-api.label.path"></span></label>
+    <input type="text" id="node-input-path" placeholder="/devices" />
+  </div>
+</script>
+
+<script type="text/html" data-help-name="openccu-loom-api">
+  <p>Generic REST call against the openccu-loom API. The path is relative to
+  <code>/api/v1</code>.</p>
+  <h3>Inputs</h3>
+  <ul>
+    <li><code>msg.method</code> – overrides node field.</li>
+    <li><code>msg.path</code> – overrides node field (e.g. <code>/sysvars</code>).</li>
+    <li><code>msg.payload</code> – request body (JSON).</li>
+    <li><code>msg.query</code> – query parameters as object.</li>
+    <li><code>msg.headers</code> – extra request headers.</li>
+    <li><code>msg.idempotencyKey</code> – sent as <code>Idempotency-Key</code> header.</li>
+  </ul>
+  <h3>Outputs</h3>
+  <p><code>msg.payload</code> = response body, <code>msg.statusCode</code>,
+  <code>msg.headers</code>.</p>
+</script>

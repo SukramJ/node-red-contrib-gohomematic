@@ -1,0 +1,15 @@
+{
+  "openccu-loom-messages": {
+    "label": {
+      "name": "Name",
+      "server": "Server",
+      "kind": "Art",
+      "action": "Aktion",
+      "id": "Message-ID"
+    },
+    "action": {
+      "list": "Auflisten",
+      "ack": "Quittieren"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "openccu-loom-ws-call": {
+    "label": {
+      "name": "Name",
+      "server": "Server",
+      "command": "Command",
+      "timeout": "Timeout (ms)"
+    }
+  }
+}

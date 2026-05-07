@@ -1,0 +1,20 @@
+{
+  "openccu-loom-device": {
+    "label": {
+      "name": "Name",
+      "server": "Server",
+      "scope": "Scope",
+      "address": "Adresse",
+      "channel": "Kanal",
+      "parameter": "Parameter"
+    },
+    "scope": {
+      "list": "Geräte-Liste",
+      "device": "Gerät (Detail)",
+      "channels": "Kanäle eines Geräts",
+      "channel": "Einzelner Kanal",
+      "data-points": "Datenpunkte eines Kanals",
+      "data-point": "Einzelner Datenpunkt"
+    }
+  }
+}

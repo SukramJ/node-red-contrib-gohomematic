@@ -1,0 +1,15 @@
+{
+  "openccu-loom-interfaces": {
+    "label": {
+      "name": "Name",
+      "server": "Server",
+      "action": "Action",
+      "id": "Interface ID"
+    },
+    "action": {
+      "list": "List",
+      "get": "Get detail",
+      "reconnect": "Reconnect"
+    }
+  }
+}

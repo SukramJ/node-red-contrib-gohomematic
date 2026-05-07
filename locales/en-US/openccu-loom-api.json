@@ -1,0 +1,10 @@
+{
+  "openccu-loom-api": {
+    "label": {
+      "name": "Name",
+      "server": "Server",
+      "method": "Method",
+      "path": "Path"
+    }
+  }
+}

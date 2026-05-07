@@ -1,0 +1,61 @@
+<script type="text/javascript">
+  RED.nodes.registerType("openccu-loom-device", {
+    category: "openccu-loom",
+    color: "#A1C9F1",
+    defaults: {
+      name: { value: "" },
+      server: { value: "", type: "openccu-loom-server", required: true },
+      scope: { value: "device" },
+      address: { value: "" },
+      channel: { value: "" },
+      parameter: { value: "" }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "feed.svg",
+    label: function () {
+      return this.name || `device ${this.scope}`;
+    },
+    paletteLabel: "device"
+  });
+</script>
+
+<script type="text/html" data-template-name="openccu-loom-device">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="openccu-loom-device.label.name"></span></label>
+    <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-server"></i> <span data-i18n="openccu-loom-device.label.server"></span></label>
+    <input type="text" id="node-input-server" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-scope"><i class="fa fa-sitemap"></i> <span data-i18n="openccu-loom-device.label.scope"></span></label>
+    <select id="node-input-scope">
+      <option value="list" data-i18n="openccu-loom-device.scope.list"></option>
+      <option value="device" data-i18n="openccu-loom-device.scope.device"></option>
+      <option value="channels" data-i18n="openccu-loom-device.scope.channels"></option>
+      <option value="channel" data-i18n="openccu-loom-device.scope.channel"></option>
+      <option value="data-points" data-i18n="openccu-loom-device.scope.data-points"></option>
+      <option value="data-point" data-i18n="openccu-loom-device.scope.data-point"></option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-address"><i class="fa fa-id-card-o"></i> <span data-i18n="openccu-loom-device.label.address"></span></label>
+    <input type="text" id="node-input-address" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-channel"><i class="fa fa-hashtag"></i> <span data-i18n="openccu-loom-device.label.channel"></span></label>
+    <input type="text" id="node-input-channel" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-parameter"><i class="fa fa-cog"></i> <span data-i18n="openccu-loom-device.label.parameter"></span></label>
+    <input type="text" id="node-input-parameter" />
+  </div>
+</script>
+
+<script type="text/html" data-help-name="openccu-loom-device">
+  <p>Reads device, channel, and data-point information via the REST API.</p>
+  <p><code>msg.scope</code>, <code>msg.address</code>, <code>msg.channel</code>, and
+  <code>msg.parameter</code> override the node fields.</p>
+</script>

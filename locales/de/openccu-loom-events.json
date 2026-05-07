@@ -1,0 +1,9 @@
+{
+  "openccu-loom-events": {
+    "label": {
+      "name": "Name",
+      "server": "Server",
+      "topics": "Topics"
+    }
+  }
+}

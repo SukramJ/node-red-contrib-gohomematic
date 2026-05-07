@@ -1,0 +1,59 @@
+[
+  {
+    "id": "ex4.tab",
+    "type": "tab",
+    "label": "openccu-loom – WS-Command",
+    "disabled": false,
+    "info": "Demonstriert einen WS-RPC: bittet den Daemon um Signal-Quality-Werte aller Geräte."
+  },
+  {
+    "id": "ex4.server",
+    "type": "openccu-loom-server",
+    "name": "openccu-loom localhost",
+    "host": "127.0.0.1",
+    "port": 8080,
+    "tls": false,
+    "insecureTLS": false,
+    "authMethod": "basic",
+    "timeout": 10000
+  },
+  {
+    "id": "ex4.inject",
+    "type": "inject",
+    "z": "ex4.tab",
+    "name": "every 60s",
+    "props": [{ "p": "payload" }],
+    "repeat": "60",
+    "once": true,
+    "payload": "{}",
+    "payloadType": "json",
+    "x": 160,
+    "y": 120,
+    "wires": [["ex4.ws"]]
+  },
+  {
+    "id": "ex4.ws",
+    "type": "openccu-loom-ws-call",
+    "z": "ex4.tab",
+    "name": "ccu.get_signal_quality",
+    "server": "ex4.server",
+    "command": "ccu.get_signal_quality",
+    "timeoutMs": 15000,
+    "x": 420,
+    "y": 120,
+    "wires": [["ex4.debug"]]
+  },
+  {
+    "id": "ex4.debug",
+    "type": "debug",
+    "z": "ex4.tab",
+    "name": "Signal-Quality",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "x": 660,
+    "y": 120,
+    "wires": []
+  }
+]

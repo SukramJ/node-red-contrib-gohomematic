@@ -1,0 +1,51 @@
+<script type="text/javascript">
+  RED.nodes.registerType("openccu-loom-centrals", {
+    category: "openccu-loom",
+    color: "#A1C9F1",
+    defaults: {
+      name: { value: "" },
+      server: { value: "", type: "openccu-loom-server", required: true },
+      action: { value: "list" },
+      centralName: { value: "" }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "hash.svg",
+    label: function () {
+      return this.name || `centrals ${this.action}`;
+    },
+    paletteLabel: "centrals"
+  });
+</script>
+
+<script type="text/html" data-template-name="openccu-loom-centrals">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="openccu-loom-centrals.label.name"></span></label>
+    <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-server"></i> <span data-i18n="openccu-loom-centrals.label.server"></span></label>
+    <input type="text" id="node-input-server" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-action"><i class="fa fa-exchange"></i> <span data-i18n="openccu-loom-centrals.label.action"></span></label>
+    <select id="node-input-action">
+      <option value="list" data-i18n="openccu-loom-centrals.action.list"></option>
+      <option value="get" data-i18n="openccu-loom-centrals.action.get"></option>
+      <option value="create" data-i18n="openccu-loom-centrals.action.create"></option>
+      <option value="update" data-i18n="openccu-loom-centrals.action.update"></option>
+      <option value="delete" data-i18n="openccu-loom-centrals.action.delete"></option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-centralName"><i class="fa fa-key"></i> <span data-i18n="openccu-loom-centrals.label.centralName"></span></label>
+    <input type="text" id="node-input-centralName" placeholder="Home" />
+  </div>
+</script>
+
+<script type="text/html" data-help-name="openccu-loom-centrals">
+  <p>Multi-CCU registry CRUD via <code>/centrals</code> and
+  <code>/centrals/{name}</code>. Mutating calls require admin.</p>
+  <p><code>msg.payload</code> for <code>create</code>/<code>update</code> must be
+  a <code>CentralRow</code> object.</p>
+</script>

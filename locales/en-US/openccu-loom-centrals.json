@@ -1,0 +1,17 @@
+{
+  "openccu-loom-centrals": {
+    "label": {
+      "name": "Name",
+      "server": "Server",
+      "action": "Action",
+      "centralName": "Central"
+    },
+    "action": {
+      "list": "List",
+      "get": "Get",
+      "create": "Create",
+      "update": "Update",
+      "delete": "Delete"
+    }
+  }
+}

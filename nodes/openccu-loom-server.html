@@ -1,0 +1,143 @@
+<script type="text/javascript">
+  RED.nodes.registerType("openccu-loom-server", {
+    category: "config",
+    defaults: {
+      name: { value: "" },
+      host: { value: "127.0.0.1", required: true },
+      port: { value: 8080, required: true, validate: RED.validators.number() },
+      tls: { value: false },
+      insecureTLS: { value: false },
+      authMethod: { value: "basic" },
+      timeout: { value: 10000, validate: RED.validators.number() }
+    },
+    credentials: {
+      username: { type: "text" },
+      password: { type: "password" },
+      token: { type: "password" }
+    },
+    label: function () {
+      return this.name || `${this.host}:${this.port}`;
+    },
+    oneditprepare: function () {
+      const $auth = $("#node-config-input-authMethod");
+      const $userRow = $("#row-username");
+      const $passRow = $("#row-password");
+      const $tokenRow = $("#row-token");
+      function refresh() {
+        const m = $auth.val();
+        $userRow.toggle(m === "basic" || m === "session");
+        $passRow.toggle(m === "basic" || m === "session");
+        $tokenRow.toggle(m === "bearer");
+      }
+      $auth.on("change", refresh);
+      refresh();
+
+      const node = this;
+      $("#node-config-test-button").on("click", function () {
+        const $result = $("#node-config-test-result");
+        $result.text("…").css("color", "");
+        const payload = {
+          id: node.id,
+          host: $("#node-config-input-host").val(),
+          port: $("#node-config-input-port").val(),
+          tls: $("#node-config-input-tls").is(":checked"),
+          insecureTLS: $("#node-config-input-insecureTLS").is(":checked"),
+          authMethod: $auth.val(),
+          timeout: $("#node-config-input-timeout").val(),
+          username: $("#node-config-input-username").val(),
+          password: $("#node-config-input-password").val(),
+          token: $("#node-config-input-token").val()
+        };
+        $.ajax({
+          url: "openccu-loom/test-connection",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(payload)
+        })
+          .done(function (data) {
+            if (data.ok) {
+              const v = (data.info && (data.info.version || data.info.build)) || data.status;
+              $result.text("OK — " + v).css("color", "#1c7c2e");
+            } else {
+              $result.text(RED._("openccu-loom-server.label.error") + ": " + (data.error || "unknown"))
+                .css("color", "#b71c1c");
+            }
+          })
+          .fail(function (xhr) {
+            $result.text("HTTP " + xhr.status + " " + xhr.statusText).css("color", "#b71c1c");
+          });
+      });
+    }
+  });
+</script>
+
+<script type="text/html" data-template-name="openccu-loom-server">
+  <div class="form-row">
+    <label for="node-config-input-name"><i class="fa fa-tag"></i> <span data-i18n="openccu-loom-server.label.name"></span></label>
+    <input type="text" id="node-config-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-host"><i class="fa fa-globe"></i> <span data-i18n="openccu-loom-server.label.host"></span></label>
+    <input type="text" id="node-config-input-host" placeholder="127.0.0.1" />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-port"><i class="fa fa-plug"></i> <span data-i18n="openccu-loom-server.label.port"></span></label>
+    <input type="number" id="node-config-input-port" />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-tls"><i class="fa fa-lock"></i> <span data-i18n="openccu-loom-server.label.tls"></span></label>
+    <input type="checkbox" id="node-config-input-tls" style="width:auto" />
+    <span style="margin-left:1em">
+      <input type="checkbox" id="node-config-input-insecureTLS" style="width:auto" />
+      <span data-i18n="openccu-loom-server.label.insecureTLS"></span>
+    </span>
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-authMethod"><i class="fa fa-key"></i> <span data-i18n="openccu-loom-server.label.auth"></span></label>
+    <select id="node-config-input-authMethod">
+      <option value="basic" data-i18n="openccu-loom-server.auth.basic"></option>
+      <option value="bearer" data-i18n="openccu-loom-server.auth.bearer"></option>
+      <option value="session" data-i18n="openccu-loom-server.auth.session"></option>
+      <option value="none" data-i18n="openccu-loom-server.auth.none"></option>
+    </select>
+  </div>
+  <div class="form-row" id="row-username">
+    <label for="node-config-input-username"><i class="fa fa-user"></i> <span data-i18n="openccu-loom-server.label.user"></span></label>
+    <input type="text" id="node-config-input-username" />
+  </div>
+  <div class="form-row" id="row-password">
+    <label for="node-config-input-password"><i class="fa fa-lock"></i> <span data-i18n="openccu-loom-server.label.password"></span></label>
+    <input type="password" id="node-config-input-password" />
+  </div>
+  <div class="form-row" id="row-token">
+    <label for="node-config-input-token"><i class="fa fa-shield"></i> <span data-i18n="openccu-loom-server.label.token"></span></label>
+    <input type="password" id="node-config-input-token" />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-timeout"><i class="fa fa-clock-o"></i> <span data-i18n="openccu-loom-server.label.timeout"></span></label>
+    <input type="number" id="node-config-input-timeout" />
+  </div>
+  <div class="form-row">
+    <label>&nbsp;</label>
+    <button type="button" class="red-ui-button" id="node-config-test-button">
+      <i class="fa fa-bolt"></i> <span data-i18n="openccu-loom-server.label.test"></span>
+    </button>
+    <span id="node-config-test-result" style="margin-left:1em"></span>
+  </div>
+</script>
+
+<script type="text/html" data-help-name="openccu-loom-server">
+  <p>Connection settings for an <b>openccu-loom</b> daemon (REST + WebSocket).</p>
+  <p>The base URL is <code>{scheme}://{host}:{port}/api/v1</code>. Default port is 8080
+  (HTTP API). When TLS is enabled, HTTPS and WSS are used instead.</p>
+  <p><b>Authentication:</b></p>
+  <ul>
+    <li><b>HTTP Basic</b> – username/password sent on every request.</li>
+    <li><b>Bearer Token</b> – created via <code>POST /auth/tokens</code> on the daemon
+        (admin role required). Also suitable for OIDC-issued tokens forwarded as Bearer.</li>
+    <li><b>Session-Cookie + CSRF</b> – one-shot <code>/auth/login</code>, the cookie jar
+        is kept and the CSRF header is added automatically on mutating requests.</li>
+    <li><b>None</b> – when the API is exposed anonymously.</li>
+  </ul>
+  <p>The <i>Test connection</i> button performs a <code>GET /info</code> against the entered host.</p>
+</script>

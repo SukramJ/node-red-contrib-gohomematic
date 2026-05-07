@@ -1,0 +1,60 @@
+<script type="text/javascript">
+  RED.nodes.registerType("openccu-loom-sysvar", {
+    category: "openccu-loom",
+    color: "#A1C9F1",
+    defaults: {
+      name: { value: "" },
+      server: { value: "", type: "openccu-loom-server", required: true },
+      sysvar: { value: "" },
+      mode: { value: "read" }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "db.svg",
+    label: function () {
+      return this.name || `sysvar ${this.mode}: ${this.sysvar || "(msg.sysvar)"}`;
+    },
+    paletteLabel: "sysvar"
+  });
+</script>
+
+<script type="text/html" data-template-name="openccu-loom-sysvar">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="openccu-loom-sysvar.label.name"></span></label>
+    <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-server"></i> <span data-i18n="openccu-loom-sysvar.label.server"></span></label>
+    <input type="text" id="node-input-server" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-mode"><i class="fa fa-exchange"></i> <span data-i18n="openccu-loom-sysvar.label.mode"></span></label>
+    <select id="node-input-mode">
+      <option value="read" data-i18n="openccu-loom-sysvar.mode.read"></option>
+      <option value="write" data-i18n="openccu-loom-sysvar.mode.write"></option>
+      <option value="list" data-i18n="openccu-loom-sysvar.mode.list"></option>
+      <option value="create" data-i18n="openccu-loom-sysvar.mode.create"></option>
+      <option value="patch" data-i18n="openccu-loom-sysvar.mode.patch"></option>
+      <option value="delete" data-i18n="openccu-loom-sysvar.mode.delete"></option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-sysvar"><i class="fa fa-key"></i> <span data-i18n="openccu-loom-sysvar.label.sysvar"></span></label>
+    <input type="text" id="node-input-sysvar" placeholder="Presence" />
+  </div>
+</script>
+
+<script type="text/html" data-help-name="openccu-loom-sysvar">
+  <p>Reads, writes, lists, creates, patches or deletes a CCU system variable.</p>
+  <h3>Modes</h3>
+  <ul>
+    <li><code>read</code> — <code>GET /sysvars/{name}</code></li>
+    <li><code>write</code> — <code>PUT /sysvars/{name}</code>, body <code>{value: msg.payload}</code></li>
+    <li><code>list</code> — <code>GET /sysvars</code></li>
+    <li><code>create</code> — <code>POST /sysvars</code>, body <code>msg.payload</code> (object)</li>
+    <li><code>patch</code> — <code>PATCH /sysvars/{name}</code> with the metadata fields
+        <code>description</code>, <code>unit</code>, <code>min</code>, <code>max</code>,
+        <code>value_list</code> in <code>msg.payload</code></li>
+    <li><code>delete</code> — <code>DELETE /sysvars/{name}</code></li>
+  </ul>
+</script>

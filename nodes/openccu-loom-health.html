@@ -1,0 +1,45 @@
+<script type="text/javascript">
+  RED.nodes.registerType("openccu-loom-health", {
+    category: "openccu-loom",
+    color: "#A1C9F1",
+    defaults: {
+      name: { value: "" },
+      server: { value: "", type: "openccu-loom-server", required: true },
+      scope: { value: "health" }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "status.svg",
+    label: function () {
+      return this.name || `health ${this.scope}`;
+    },
+    paletteLabel: "health"
+  });
+</script>
+
+<script type="text/html" data-template-name="openccu-loom-health">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="openccu-loom-health.label.name"></span></label>
+    <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-server"></i> <span data-i18n="openccu-loom-health.label.server"></span></label>
+    <input type="text" id="node-input-server" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-scope"><i class="fa fa-sitemap"></i> <span data-i18n="openccu-loom-health.label.scope"></span></label>
+    <select id="node-input-scope">
+      <option value="health">health</option>
+      <option value="info">info</option>
+      <option value="config">config</option>
+      <option value="config-effective">config/effective</option>
+      <option value="config-schema">config/schema</option>
+    </select>
+  </div>
+</script>
+
+<script type="text/html" data-help-name="openccu-loom-health">
+  <p>Fetches daemon diagnostics: <code>/info</code>, <code>/health</code>,
+  <code>/config</code>, <code>/config/effective</code> or
+  <code>/config/schema</code>.</p>
+</script>

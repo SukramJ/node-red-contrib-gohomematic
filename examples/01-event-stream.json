@@ -1,0 +1,70 @@
+[
+  {
+    "id": "ex1.tab",
+    "type": "tab",
+    "label": "openccu-loom – Event-Stream",
+    "disabled": false,
+    "info": "Empfängt den WebSocket-Event-Stream und reicht ihn an einen Debug-Knoten weiter. Bei replay_lost wird ein Snapshot nachgezogen."
+  },
+  {
+    "id": "ex1.server",
+    "type": "openccu-loom-server",
+    "name": "openccu-loom localhost",
+    "host": "127.0.0.1",
+    "port": 8080,
+    "tls": false,
+    "insecureTLS": false,
+    "authMethod": "basic",
+    "timeout": 10000
+  },
+  {
+    "id": "ex1.events",
+    "type": "openccu-loom-events",
+    "z": "ex1.tab",
+    "name": "alle Geräte- und Hub-Events",
+    "server": "ex1.server",
+    "topics": "device.*,hub.*",
+    "x": 220,
+    "y": 120,
+    "wires": [["ex1.split"]]
+  },
+  {
+    "id": "ex1.split",
+    "type": "switch",
+    "z": "ex1.tab",
+    "name": "replay_lost?",
+    "property": "control",
+    "propertyType": "msg",
+    "rules": [
+      { "t": "eq", "v": "replay_lost", "vt": "str" },
+      { "t": "else" }
+    ],
+    "outputs": 2,
+    "x": 460,
+    "y": 120,
+    "wires": [["ex1.snapshot"], ["ex1.debug"]]
+  },
+  {
+    "id": "ex1.snapshot",
+    "type": "openccu-loom-snapshot",
+    "z": "ex1.tab",
+    "name": "resync",
+    "server": "ex1.server",
+    "x": 660,
+    "y": 80,
+    "wires": [["ex1.debug"]]
+  },
+  {
+    "id": "ex1.debug",
+    "type": "debug",
+    "z": "ex1.tab",
+    "name": "Events",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "x": 660,
+    "y": 160,
+    "wires": []
+  }
+]

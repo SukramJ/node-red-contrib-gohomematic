@@ -1,0 +1,24 @@
+{
+  "openccu-loom-server": {
+    "label": {
+      "name": "Name",
+      "host": "Host",
+      "port": "Port",
+      "tls": "TLS",
+      "insecureTLS": "Skip certificate check",
+      "auth": "Auth",
+      "user": "User",
+      "password": "Password",
+      "token": "Token",
+      "timeout": "Timeout (ms)",
+      "test": "Test connection",
+      "error": "Error"
+    },
+    "auth": {
+      "basic": "HTTP Basic",
+      "bearer": "Bearer Token",
+      "session": "Session cookie + CSRF",
+      "none": "None"
+    }
+  }
+}

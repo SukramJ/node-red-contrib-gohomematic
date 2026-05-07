@@ -1,0 +1,49 @@
+<script type="text/javascript">
+  RED.nodes.registerType("openccu-loom-program", {
+    category: "openccu-loom",
+    color: "#A1C9F1",
+    defaults: {
+      name: { value: "" },
+      server: { value: "", type: "openccu-loom-server", required: true },
+      programId: { value: "" },
+      mode: { value: "execute" }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "trigger.svg",
+    label: function () {
+      return this.name || `program ${this.mode}: ${this.programId || "(msg.programId)"}`;
+    },
+    paletteLabel: "program"
+  });
+</script>
+
+<script type="text/html" data-template-name="openccu-loom-program">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="openccu-loom-program.label.name"></span></label>
+    <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-server"></i> <span data-i18n="openccu-loom-program.label.server"></span></label>
+    <input type="text" id="node-input-server" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-mode"><i class="fa fa-exchange"></i> <span data-i18n="openccu-loom-program.label.mode"></span></label>
+    <select id="node-input-mode">
+      <option value="execute" data-i18n="openccu-loom-program.mode.execute"></option>
+      <option value="get" data-i18n="openccu-loom-program.mode.get"></option>
+      <option value="list" data-i18n="openccu-loom-program.mode.list"></option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-programId"><i class="fa fa-key"></i> <span data-i18n="openccu-loom-program.label.programId"></span></label>
+    <input type="text" id="node-input-programId" />
+  </div>
+</script>
+
+<script type="text/html" data-help-name="openccu-loom-program">
+  <p>Executes a CCU program (<code>POST /programs/{id}/execute</code>),
+  reads details (<code>GET /programs/{id}</code>) or lists all programs
+  (<code>GET /programs</code>).</p>
+  <p><code>msg.programId</code> and <code>msg.mode</code> override the node fields.</p>
+</script>

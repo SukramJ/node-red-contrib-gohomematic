@@ -1,0 +1,49 @@
+<script type="text/javascript">
+  RED.nodes.registerType("openccu-loom-install-mode", {
+    category: "openccu-loom",
+    color: "#A1C9F1",
+    defaults: {
+      name: { value: "" },
+      server: { value: "", type: "openccu-loom-server", required: true },
+      action: { value: "status" },
+      seconds: { value: 60, validate: RED.validators.number() }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "switch.svg",
+    label: function () {
+      return this.name || `install-mode ${this.action}`;
+    },
+    paletteLabel: "install mode"
+  });
+</script>
+
+<script type="text/html" data-template-name="openccu-loom-install-mode">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="openccu-loom-install-mode.label.name"></span></label>
+    <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-server"></i> <span data-i18n="openccu-loom-install-mode.label.server"></span></label>
+    <input type="text" id="node-input-server" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-action"><i class="fa fa-play"></i> <span data-i18n="openccu-loom-install-mode.label.action"></span></label>
+    <select id="node-input-action">
+      <option value="status" data-i18n="openccu-loom-install-mode.action.status"></option>
+      <option value="start" data-i18n="openccu-loom-install-mode.action.start"></option>
+      <option value="stop" data-i18n="openccu-loom-install-mode.action.stop"></option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-seconds"><i class="fa fa-clock-o"></i> <span data-i18n="openccu-loom-install-mode.label.seconds"></span></label>
+    <input type="number" id="node-input-seconds" />
+  </div>
+</script>
+
+<script type="text/html" data-help-name="openccu-loom-install-mode">
+  <p>Controls the CCU install (pairing) mode via
+  <code>GET/POST /install-mode</code>.</p>
+  <p><code>msg.action</code> (<code>status|start|stop</code>) and
+  <code>msg.seconds</code> override the node fields.</p>
+</script>

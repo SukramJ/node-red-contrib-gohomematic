@@ -1,0 +1,86 @@
+<script type="text/javascript">
+  RED.nodes.registerType("openccu-loom-set-value", {
+    category: "openccu-loom",
+    color: "#A1C9F1",
+    defaults: {
+      name: { value: "" },
+      server: { value: "", type: "openccu-loom-server", required: true },
+      address: { value: "" },
+      channel: { value: "" },
+      parameter: { value: "" },
+      priority: { value: "" },
+      idempotencyKey: { value: "" }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "light.svg",
+    label: function () {
+      if (this.name) return this.name;
+      if (this.address && this.channel !== "" && this.parameter) {
+        return `set ${this.address}:${this.channel}/${this.parameter}`;
+      }
+      return "set value";
+    },
+    paletteLabel: "set value"
+  });
+</script>
+
+<script type="text/html" data-template-name="openccu-loom-set-value">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="openccu-loom-set-value.label.name"></span></label>
+    <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-server"></i> <span data-i18n="openccu-loom-set-value.label.server"></span></label>
+    <input type="text" id="node-input-server" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-address"><i class="fa fa-id-card-o"></i> <span data-i18n="openccu-loom-set-value.label.address"></span></label>
+    <input type="text" id="node-input-address" placeholder="000C9709AEF157" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-channel"><i class="fa fa-hashtag"></i> <span data-i18n="openccu-loom-set-value.label.channel"></span></label>
+    <input type="text" id="node-input-channel" placeholder="1" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-parameter"><i class="fa fa-cog"></i> <span data-i18n="openccu-loom-set-value.label.parameter"></span></label>
+    <input type="text" id="node-input-parameter" placeholder="SET_POINT_TEMPERATURE" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-priority"><i class="fa fa-flag"></i> <span data-i18n="openccu-loom-set-value.label.priority"></span></label>
+    <select id="node-input-priority">
+      <option value="">(default)</option>
+      <option value="critical">critical</option>
+      <option value="high">high</option>
+      <option value="default">default</option>
+      <option value="low">low</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-idempotencyKey"><i class="fa fa-shield"></i> <span data-i18n="openccu-loom-set-value.label.idempotency"></span></label>
+    <input type="text" id="node-input-idempotencyKey" placeholder="(optional, UUID)" />
+  </div>
+  <div class="form-tips">
+    <code>msg.payload</code> holds the value to write. <code>msg.address</code>,
+    <code>msg.channel</code>, <code>msg.parameter</code>, <code>msg.priority</code>
+    and <code>msg.idempotencyKey</code> override the corresponding fields.
+  </div>
+</script>
+
+<script type="text/html" data-help-name="openccu-loom-set-value">
+  <p>Writes a data-point value via
+  <code>PUT /devices/{addr}/channels/{no}/data-points/{param}/value</code>.</p>
+  <h3>Inputs</h3>
+  <ul>
+    <li><code>msg.payload</code> – value (any). Required.</li>
+    <li><code>msg.address</code> – device address, overrides node field.</li>
+    <li><code>msg.channel</code> – channel number, overrides node field.</li>
+    <li><code>msg.parameter</code> – parameter name, overrides node field.</li>
+    <li><code>msg.priority</code> – <code>critical|high|default|low</code>.</li>
+    <li><code>msg.idempotencyKey</code> – sent as <code>Idempotency-Key</code> header.
+        The daemon caches the response for 5 minutes; retries with the same key replay
+        the original response and set <code>msg.idempotentReplay = true</code>.</li>
+  </ul>
+  <h3>Outputs</h3>
+  <p><code>msg.payload</code> = response body, <code>msg.statusCode</code> = HTTP status (typically 202).</p>
+</script>

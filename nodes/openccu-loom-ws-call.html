@@ -1,0 +1,54 @@
+<script type="text/javascript">
+  RED.nodes.registerType("openccu-loom-ws-call", {
+    category: "openccu-loom",
+    color: "#A1C9F1",
+    defaults: {
+      name: { value: "" },
+      server: { value: "", type: "openccu-loom-server", required: true },
+      command: { value: "" },
+      timeoutMs: { value: 15000, validate: RED.validators.number() }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "function.svg",
+    label: function () {
+      return this.name || (this.command ? `ws ${this.command}` : "ws call");
+    },
+    paletteLabel: "ws call"
+  });
+</script>
+
+<script type="text/html" data-template-name="openccu-loom-ws-call">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="openccu-loom-ws-call.label.name"></span></label>
+    <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-server"></i> <span data-i18n="openccu-loom-ws-call.label.server"></span></label>
+    <input type="text" id="node-input-server" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-command"><i class="fa fa-bolt"></i> <span data-i18n="openccu-loom-ws-call.label.command"></span></label>
+    <input type="text" id="node-input-command" placeholder="ccu.get_signal_quality" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-timeoutMs"><i class="fa fa-clock-o"></i> <span data-i18n="openccu-loom-ws-call.label.timeout"></span></label>
+    <input type="number" id="node-input-timeoutMs" />
+  </div>
+</script>
+
+<script type="text/html" data-help-name="openccu-loom-ws-call">
+  <p>Dispatches a WebSocket command to the daemon. Reuses the shared WS
+  connection of the configured server (the same hub as the events node).</p>
+  <h3>Inputs</h3>
+  <ul>
+    <li><code>msg.command</code> — command name from <code>assets/wsapi.json</code>
+        (e.g. <code>ccu.get_signal_quality</code>,
+        <code>paramset.form_schema</code>, <code>config.session.open</code>,
+        <code>backup.trigger</code>).</li>
+    <li><code>msg.args</code> or <code>msg.payload</code> — argument object.</li>
+    <li><code>msg.timeoutMs</code> — per-call timeout (default 15000).</li>
+  </ul>
+  <p>The frame is <code>{op:"call", id:&lt;auto&gt;, command, args}</code> and the
+  matching <code>{op:"result", id, result|error}</code> is correlated by id.</p>
+</script>

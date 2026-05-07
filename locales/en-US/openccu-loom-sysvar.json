@@ -1,0 +1,18 @@
+{
+  "openccu-loom-sysvar": {
+    "label": {
+      "name": "Name",
+      "server": "Server",
+      "mode": "Mode",
+      "sysvar": "Sysvar"
+    },
+    "mode": {
+      "read": "Read",
+      "write": "Write",
+      "list": "List all",
+      "create": "Create",
+      "patch": "Patch metadata",
+      "delete": "Delete"
+    }
+  }
+}

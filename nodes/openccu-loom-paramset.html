@@ -1,0 +1,64 @@
+<script type="text/javascript">
+  RED.nodes.registerType("openccu-loom-paramset", {
+    category: "openccu-loom",
+    color: "#A1C9F1",
+    defaults: {
+      name: { value: "" },
+      server: { value: "", type: "openccu-loom-server", required: true },
+      address: { value: "" },
+      key: { value: "VALUES" },
+      mode: { value: "read" },
+      idempotencyKey: { value: "" }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "db.svg",
+    label: function () {
+      return this.name || `paramset ${this.mode} ${this.key}`;
+    },
+    paletteLabel: "paramset"
+  });
+</script>
+
+<script type="text/html" data-template-name="openccu-loom-paramset">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="openccu-loom-paramset.label.name"></span></label>
+    <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-server"></i> <span data-i18n="openccu-loom-paramset.label.server"></span></label>
+    <input type="text" id="node-input-server" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-address"><i class="fa fa-id-card-o"></i> <span data-i18n="openccu-loom-paramset.label.address"></span></label>
+    <input type="text" id="node-input-address" placeholder="000C9709AEF157:1" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-key"><i class="fa fa-key"></i> <span data-i18n="openccu-loom-paramset.label.key"></span></label>
+    <select id="node-input-key">
+      <option value="VALUES">VALUES</option>
+      <option value="MASTER">MASTER</option>
+      <option value="LINK">LINK</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-mode"><i class="fa fa-exchange"></i> <span data-i18n="openccu-loom-paramset.label.mode"></span></label>
+    <select id="node-input-mode">
+      <option value="read" data-i18n="openccu-loom-paramset.mode.read"></option>
+      <option value="write" data-i18n="openccu-loom-paramset.mode.write"></option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-idempotencyKey"><i class="fa fa-shield"></i> <span data-i18n="openccu-loom-paramset.label.idempotency"></span></label>
+    <input type="text" id="node-input-idempotencyKey" placeholder="(optional, UUID)" />
+  </div>
+</script>
+
+<script type="text/html" data-help-name="openccu-loom-paramset">
+  <p>Reads or writes a paramset atomically via
+  <code>GET/PUT /devices/{addr}/paramsets/{VALUES|MASTER|LINK}</code>.</p>
+  <p>On <code>write</code> the daemon issues a single <code>setParamsetValues</code>
+  XML-RPC call — the CCU applies or rejects all keys together. The optional
+  <code>msg.idempotencyKey</code> is forwarded as <code>Idempotency-Key</code>
+  header (5-minute dedupe window).</p>
+</script>

@@ -1,0 +1,16 @@
+{
+  "openccu-loom-paramset": {
+    "label": {
+      "name": "Name",
+      "server": "Server",
+      "address": "Adresse",
+      "key": "Paramset",
+      "mode": "Modus",
+      "idempotency": "Idempotency-Key"
+    },
+    "mode": {
+      "read": "Lesen",
+      "write": "Schreiben"
+    }
+  }
+}

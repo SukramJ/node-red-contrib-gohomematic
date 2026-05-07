@@ -1,0 +1,67 @@
+{
+  "name": "node-red-contrib-openccu-loom",
+  "version": "0.2.0",
+  "description": "Node-RED nodes for the openccu-loom daemon (Homematic / HomematicIP via REST + WebSocket).",
+  "keywords": [
+    "node-red",
+    "homematic",
+    "homematicip",
+    "openccu",
+    "openccu-loom",
+    "ccu",
+    "smart-home"
+  ],
+  "license": "MIT",
+  "author": "Markus Jankowski <markus@mm-jankowski.de>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SukramJ/node-red-contrib-openccu-loom.git"
+  },
+  "engines": {
+    "node": ">=18.5.0"
+  },
+  "scripts": {
+    "test": "mocha test/**/*.test.js --timeout 10000"
+  },
+  "dependencies": {
+    "axios": "^1.7.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "mocha": "^10.7.0",
+    "node-red": "^4.1.9",
+    "node-red-node-test-helper": "^0.3.4"
+  },
+  "node-red": {
+    "version": ">=4.1.9",
+    "nodes": {
+      "openccu-loom-server": "nodes/openccu-loom-server.js",
+      "openccu-loom-events": "nodes/openccu-loom-events.js",
+      "openccu-loom-set-value": "nodes/openccu-loom-set-value.js",
+      "openccu-loom-sysvar": "nodes/openccu-loom-sysvar.js",
+      "openccu-loom-program": "nodes/openccu-loom-program.js",
+      "openccu-loom-device": "nodes/openccu-loom-device.js",
+      "openccu-loom-device-admin": "nodes/openccu-loom-device-admin.js",
+      "openccu-loom-install-mode": "nodes/openccu-loom-install-mode.js",
+      "openccu-loom-paramset": "nodes/openccu-loom-paramset.js",
+      "openccu-loom-messages": "nodes/openccu-loom-messages.js",
+      "openccu-loom-interfaces": "nodes/openccu-loom-interfaces.js",
+      "openccu-loom-snapshot": "nodes/openccu-loom-snapshot.js",
+      "openccu-loom-health": "nodes/openccu-loom-health.js",
+      "openccu-loom-centrals": "nodes/openccu-loom-centrals.js",
+      "openccu-loom-ws-call": "nodes/openccu-loom-ws-call.js",
+      "openccu-loom-api": "nodes/openccu-loom-api.js"
+    },
+    "plugins": {},
+    "examples": "examples"
+  },
+  "files": [
+    "nodes/",
+    "lib/",
+    "locales/",
+    "examples/",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ]
+}

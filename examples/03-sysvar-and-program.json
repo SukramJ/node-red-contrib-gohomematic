@@ -1,0 +1,71 @@
+[
+  {
+    "id": "ex3.tab",
+    "type": "tab",
+    "label": "openccu-loom – Sysvar + Programm",
+    "disabled": false,
+    "info": "Setzt eine Systemvariable und triggert anschließend ein CCU-Programm."
+  },
+  {
+    "id": "ex3.server",
+    "type": "openccu-loom-server",
+    "name": "openccu-loom localhost",
+    "host": "127.0.0.1",
+    "port": 8080,
+    "tls": false,
+    "insecureTLS": false,
+    "authMethod": "basic",
+    "timeout": 10000
+  },
+  {
+    "id": "ex3.inject",
+    "type": "inject",
+    "z": "ex3.tab",
+    "name": "Anwesenheit = true",
+    "props": [{ "p": "payload" }],
+    "repeat": "",
+    "once": false,
+    "payload": "true",
+    "payloadType": "bool",
+    "x": 180,
+    "y": 120,
+    "wires": [["ex3.sysvar"]]
+  },
+  {
+    "id": "ex3.sysvar",
+    "type": "openccu-loom-sysvar",
+    "z": "ex3.tab",
+    "name": "Presence schreiben",
+    "server": "ex3.server",
+    "sysvar": "Presence",
+    "mode": "write",
+    "x": 420,
+    "y": 120,
+    "wires": [["ex3.program"]]
+  },
+  {
+    "id": "ex3.program",
+    "type": "openccu-loom-program",
+    "z": "ex3.tab",
+    "name": "Programm ausführen",
+    "server": "ex3.server",
+    "programId": "1234",
+    "mode": "execute",
+    "x": 660,
+    "y": 120,
+    "wires": [["ex3.debug"]]
+  },
+  {
+    "id": "ex3.debug",
+    "type": "debug",
+    "z": "ex3.tab",
+    "name": "Antwort",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "x": 880,
+    "y": 120,
+    "wires": []
+  }
+]

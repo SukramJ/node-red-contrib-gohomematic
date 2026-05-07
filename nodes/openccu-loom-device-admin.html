@@ -1,0 +1,58 @@
+<script type="text/javascript">
+  RED.nodes.registerType("openccu-loom-device-admin", {
+    category: "openccu-loom",
+    color: "#A1C9F1",
+    defaults: {
+      name: { value: "" },
+      server: { value: "", type: "openccu-loom-server", required: true },
+      action: { value: "refresh" },
+      address: { value: "" }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "cog.svg",
+    label: function () {
+      return this.name || `device-admin ${this.action}`;
+    },
+    paletteLabel: "device admin"
+  });
+</script>
+
+<script type="text/html" data-template-name="openccu-loom-device-admin">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="openccu-loom-device-admin.label.name"></span></label>
+    <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-server"></i> <span data-i18n="openccu-loom-device-admin.label.server"></span></label>
+    <input type="text" id="node-input-server" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-action"><i class="fa fa-exchange"></i> <span data-i18n="openccu-loom-device-admin.label.action"></span></label>
+    <select id="node-input-action">
+      <option value="batch" data-i18n="openccu-loom-device-admin.action.batch"></option>
+      <option value="refresh" data-i18n="openccu-loom-device-admin.action.refresh"></option>
+      <option value="accept" data-i18n="openccu-loom-device-admin.action.accept"></option>
+      <option value="firmware" data-i18n="openccu-loom-device-admin.action.firmware"></option>
+      <option value="delete" data-i18n="openccu-loom-device-admin.action.delete"></option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-address"><i class="fa fa-id-card-o"></i> <span data-i18n="openccu-loom-device-admin.label.address"></span></label>
+    <input type="text" id="node-input-address" />
+  </div>
+</script>
+
+<script type="text/html" data-help-name="openccu-loom-device-admin">
+  <p>Device-administration operations:</p>
+  <ul>
+    <li><b>batch</b> — <code>POST /devices/values:batch</code>;
+      <code>msg.payload</code> must be an array of value writes
+      <code>{address, channel, parameter, value, priority?}</code>.
+      <code>msg.idempotencyKey</code> is honoured.</li>
+    <li><b>refresh</b> — <code>POST /devices/refresh</code> (full registry reconcile).</li>
+    <li><b>accept</b> — <code>POST /devices/{addr}/accept</code> (Inbox device).</li>
+    <li><b>firmware</b> — <code>POST /devices/{addr}/firmware/update</code>.</li>
+    <li><b>delete</b> — <code>DELETE /devices/{addr}</code>.</li>
+  </ul>
+</script>

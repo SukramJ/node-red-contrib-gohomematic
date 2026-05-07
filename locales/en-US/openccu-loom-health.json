@@ -1,0 +1,9 @@
+{
+  "openccu-loom-health": {
+    "label": {
+      "name": "Name",
+      "server": "Server",
+      "scope": "Scope"
+    }
+  }
+}
